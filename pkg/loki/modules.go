@@ -491,7 +491,7 @@ func (t *Loki) initQueryFrontend() (_ services.Service, err error) {
 	frontendHandler = middleware.Merge(
 		serverutil.RecoveryHTTPMiddleware,
 		t.HTTPAuthMiddleware,
-		queryrange.StatsHTTPMiddleware,
+		queryrange.StatsRangeQueryHTTPMiddleware,
 		serverutil.NewPrepopulateMiddleware(),
 		serverutil.ResponseJSONMiddleware(),
 	).Wrap(frontendHandler)
@@ -501,7 +501,7 @@ func (t *Loki) initQueryFrontend() (_ services.Service, err error) {
 	if t.Cfg.Frontend.TailProxyURL != "" && !t.isModuleActive(Querier) {
 		httpMiddleware := middleware.Merge(
 			t.HTTPAuthMiddleware,
-			queryrange.StatsHTTPMiddleware,
+			queryrange.StatsRangeQueryHTTPMiddleware,
 		)
 		tailURL, err := url.Parse(t.Cfg.Frontend.TailProxyURL)
 		if err != nil {
