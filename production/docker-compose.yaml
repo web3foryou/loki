@@ -20,9 +20,3 @@ services:
     networks:
       - loki
 
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
-    networks:
-      - loki
